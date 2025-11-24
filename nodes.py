@@ -4,8 +4,8 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 import cv2
-from pymatting import estimate_alpha_cf, estimate_foreground_ml, fix_trimap
 from tqdm import trange
+import logging
 
 try:
     from cv2.ximgproc import guidedFilter
@@ -246,6 +246,7 @@ class AlphaMatte:
     DEPRECATED = True
 
     def alpha_matte(self, images, alpha_trimap, preblur, blackpoint, whitepoint, max_iterations, estimate_fg):
+        from pymatting import estimate_foreground_ml, estimate_alpha_cf, fix_trimap
         d = preblur * 2 + 1
         
         i_dup = images.cpu().numpy().astype(np.float64)
@@ -295,6 +296,7 @@ class ImageMatting:
     CATEGORY = "Image-Filters/image"
 
     def alpha_matte(self, images, trimap, preblur, blackpoint, whitepoint, max_iterations, estimate_fg):
+        from pymatting import estimate_foreground_ml, estimate_alpha_cf, fix_trimap
         d = preblur * 2 + 1
         
         i_dup = images.cpu().numpy().astype(np.float64)
